@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JM Veículos</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<!-- Barra de navegação -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Logo do Site (imagem) -->
+    <a class="navbar-brand" href="{{ url_for('funcionario_index') }}">
+        <img src="{{ url_for('get_uploaded_file', filename='logo.png') }}" alt="Logo do Site" width="150">
+    </a>
+
+    <!-- Botão Dropdown -->
+    <div class="navbar-nav ml-auto">
+        <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Opções
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{ url_for('exibir_adicionar') }}">Adicionar Veiculo</a>
+                <a class="dropdown-item" href="{{ url_for('logout') }}">Sair</a>              
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="filter-form" method="POST"  action="/filtro_funcionario">
+                <div class="form-row">
+                    <div class="col-md-3 mb-3">
+                        <label for="categoria">Escolha a categoria:</label>
+                        <select class="form-control" id="categoria" name="categoria">
+                            <option value="todos" {% if categoria == 'todos' %} selected {% endif %}>Todos</option>
+                            <option value="carro" {% if categoria == 'carro' %} selected {% endif %}>Carro</option>
+                            <option value="moto" {% if categoria == 'moto' %} selected {% endif %}>Moto</option>
+                        </select>                        
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="modelo">Digite o modelo do veículo:</label>
+                        <input type="text" class="form-control" id="modelo" name="modelo" placeholder="Digite o modelo..." value="{{ modelo }}">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="id_veiculo">Digite o ID do veículo:</label>
+                        <input type="text" class="form-control" id="id_veiculo" name="id_veiculo" placeholder="Digite o ID do veículo...">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <button type="submit" class="btn btn-primary btn-block">Pesquisar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        {% for veiculo in veiculos %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <img src="{{ url_for('get_uploaded_file', filename=veiculo[10]) }}" alt="{{ veiculo[3] }}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{ veiculo[4] }}</h5>
+                    <p class="card-text"><strong>Tipo:</strong> {{ veiculo[1] }}</p>
+                    <p class="card-text"><strong>Cor:</strong> {{ veiculo[2] }}</p>
+                    <p class="card-text"><strong>Marca:</strong> {{ veiculo[3] }}</p>
+                    <p class="card-text"><strong>Modelo:</strong> {{ veiculo[4] }}</p>
+                    <p class="card-text"><strong>Ano:</strong> {{ veiculo[5] }}</p>
+                    <p class="card-text"><strong>Estado:</strong> {{ veiculo[6] }}</p>
+                    <p class="card-text"><strong>Km Rodados:</strong> {{ veiculo[7] }}</p>
+                    <p class="card-text"><strong>Leilão:</strong> {{ "Sim" if veiculo[8] else "Não" }}</p>
+                    <p class="card-text"><strong>Pagamento:</strong> {{ veiculo[9] }}</p>
+                    <div class="btn-group">
+                        <a href="/excluir_veiculo/{{ veiculo[0] }}" class="btn btn-danger">Excluir</a>
+                        <a href="/editar_veiculo/{{ veiculo[0] }}" class="btn btn-primary">Editar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<br><br>
+<!-- Rodapé -->
+<footer class="bg-dark text-white text-center py-3">
+    <p>&copy; 2023 JM Veículos. Todos os direitos reservados.</p>
+</footer>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

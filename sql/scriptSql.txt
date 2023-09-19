@@ -1,0 +1,24 @@
+CREATE DATABASE jm_veiculos;
+
+
+CREATE TABLE funcionarios (
+  id int NOT NULL AUTO_INCREMENT,
+  username varchar(255) NOT NULL,
+  password varchar(255) NOT NULL,
+  PRIMARY KEY (id)
+) 
+
+CREATE TABLE veiculos (
+  id int NOT NULL AUTO_INCREMENT,
+  tipo enum('carro','moto') NOT NULL,
+  cor varchar(50) NOT NULL,
+  marca varchar(50) NOT NULL,
+  modelo varchar(50) NOT NULL,
+  ano_fabricacao int NOT NULL,
+  estado enum('novo','usado') NOT NULL,
+  km_rodados int NOT NULL,
+  leilao tinyint(1) DEFAULT NULL,
+  formas_pagamento varchar(255) NOT NULL,
+  foto varchar(255) DEFAULT NULL,
+  PRIMARY KEY (id)
+) 
